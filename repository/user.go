@@ -27,3 +27,12 @@ func (u UserRepository) FindAll() []model.User {
 
 	return users
 }
+
+func (u UserRepository) Save(user model.User) error {
+	// insert values
+	_, err := u.db.Exec("INSERT INTO user_account (id, email, password) VALUES (DEFAULT, $1, $2)", user.Email, user.Password)
+	if err != nil {
+		return err
+	}
+	return nil
+}

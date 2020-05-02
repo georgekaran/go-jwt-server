@@ -1,7 +1,6 @@
 package service
 
 import (
-	"fmt"
 	"github.com/georgekaran/go-jwt-server/model"
 	"github.com/georgekaran/go-jwt-server/repository"
 )
@@ -23,8 +22,8 @@ func (us *UserService) FindAll() []model.User {
 	return userService.Repository.FindAll()
 }
 
-func (us *UserService) Save(u model.User) {
-	fmt.Println("Estou salvando...", u)
+func (us *UserService) Save(user model.User) error {
+	return userService.Repository.Save(user)
 }
 
 func (UserService) SaveAll() {

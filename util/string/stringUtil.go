@@ -1,6 +1,6 @@
 package string
 
-func IsAtLeastOneStringEmpty(fields... string) bool {
+func HasStringEmpty(fields... string) bool {
 	for _, field := range fields {
 		if field == "" {
 			return true
