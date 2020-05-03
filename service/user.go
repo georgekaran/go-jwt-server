@@ -26,7 +26,3 @@ func (us *UserService) Save(user model.User) error {
 	return userService.Repository.Save(user)
 }
 
-func (UserService) SaveAll() {
-
-}
-

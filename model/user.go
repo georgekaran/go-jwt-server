@@ -13,3 +13,11 @@ func NewUser(name, email, password string) User {
 	user := User{Name: name, Email: email, Password: util.HashPassword(password)}
 	return user
 }
+
+func (user *User) GetLogin() string {
+	return user.Email
+}
+
+func (user *User) GetPassword() string {
+	return user.Password
+}

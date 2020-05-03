@@ -2,6 +2,7 @@ package api
 
 import (
 	"encoding/json"
+	"github.com/georgekaran/go-jwt-server/middleware"
 	"github.com/georgekaran/go-jwt-server/model"
 	"github.com/georgekaran/go-jwt-server/service"
 	"github.com/georgekaran/go-jwt-server/util"
@@ -16,7 +17,7 @@ func init() {
 }
 
 func UserHandler(mux *http.ServeMux) {
-	mux.HandleFunc("/api/user", handleIndex)
+	mux.Handle("/api/user", middleware.ValidateJwt(handleIndex))
 }
 
 func handleIndex(w http.ResponseWriter, r *http.Request) {
@@ -46,5 +47,7 @@ func handleIndex(w http.ResponseWriter, r *http.Request) {
 	case r.Method == http.MethodGet:
 		data, _ := json.Marshal(userService.FindAll())
 		w.Write(data)
+	case r.Method == http.MethodPut:
+
 	}
 }
