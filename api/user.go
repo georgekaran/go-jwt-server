@@ -10,12 +10,6 @@ import (
 	"net/http"
 )
 
-var userService service.UserService
-
-func init() {
-	userService = service.InitUserService()
-}
-
 func UserHandler(mux *http.ServeMux) {
 	mux.Handle("/api/user", middleware.ValidateJwt(handleIndex))
 }
@@ -37,7 +31,7 @@ func handleIndex(w http.ResponseWriter, r *http.Request) {
 			data, _ := json.Marshal(util.NewError("Missing fields."))
 			w.Write(data)
 		} else {
-			saveError := userService.Save(user)
+			saveError := service.UserServiceInstance.Save(user)
 			if saveError != nil {
 				w.WriteHeader(http.StatusBadRequest)
 				data, _ := json.Marshal(util.NewError(saveError.Error()))
@@ -45,7 +39,7 @@ func handleIndex(w http.ResponseWriter, r *http.Request) {
 			}
 		}
 	case r.Method == http.MethodGet:
-		data, _ := json.Marshal(userService.FindAll())
+		data, _ := json.Marshal(service.UserServiceInstance.FindAll())
 		w.Write(data)
 	case r.Method == http.MethodPut:
 

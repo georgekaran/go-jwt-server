@@ -36,3 +36,15 @@ func (u UserRepository) Save(user model.User) error {
 	}
 	return nil
 }
+
+func (u UserRepository) Login(login, password string) (model.User, error) {
+	var user model.User
+
+	row := u.db.QueryRow("SELECT id, name, email, password FROM user_account WHERE email = $1 AND password = $2", login, password)
+
+	errScan := row.Scan(&user.Id, &user.Name, &user.Email, &user.Password)
+	if errScan != nil {
+		return user, errScan
+	}
+	return user, nil
+}

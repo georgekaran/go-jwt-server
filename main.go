@@ -17,6 +17,7 @@ func init() {
 func main() {
 	mux := http.NewServeMux()
 	api.UserHandler(mux)
+	api.LoginHandler(mux)
 
 	log.Printf("Running on port %s\n", ConfigMap["server.port"])
 	err := http.ListenAndServe(ConfigMap["server.port"], mux)
