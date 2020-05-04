@@ -4,12 +4,21 @@ import (
 	"errors"
 	"fmt"
 	"github.com/dgrijalva/jwt-go"
+	"github.com/georgekaran/go-jwt-server/config"
 	"time"
 )
+
+func init() {
+	JWTInstance = JWT{
+		Secret: []byte(config.ConfigMap["jwt.secret"]),
+	}
+}
 
 type JWT struct {
 	Secret []byte
 }
+
+var JWTInstance JWT
 
 // MinBytes is the minimum amount of bytes for secret allowed.
 var MinBytes = 32

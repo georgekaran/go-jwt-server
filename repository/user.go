@@ -14,13 +14,13 @@ func InitRepository() UserRepository {
 }
 
 func (u UserRepository) FindAll() []model.User {
-	rows, err := u.db.Query("SELECT * FROM user_account")
+	rows, err := u.db.Query("SELECT id, name, email FROM user_account")
 	util.CheckFatal(err)
 
 	users := make([]model.User, 0)
 	for rows.Next() {
 		user := model.User{}
-		errScan := rows.Scan(&user.Id, &user.Email, &user.Password)
+		errScan := rows.Scan(&user.Id, &user.Name, &user.Email)
 		util.CheckPrint(errScan)
 		users = append(users, user)
 	}
@@ -30,7 +30,7 @@ func (u UserRepository) FindAll() []model.User {
 
 func (u UserRepository) Save(user model.User) error {
 	// insert values
-	_, err := u.db.Exec("INSERT INTO user_account (id, email, password) VALUES (DEFAULT, $1, $2)", user.Email, user.Password)
+	_, err := u.db.Exec("INSERT INTO user_account (id, name, email, password) VALUES (DEFAULT, $1, $2, $3)", user.Name, user.Email, user.Password)
 	if err != nil {
 		return err
 	}

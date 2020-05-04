@@ -2,7 +2,9 @@ package api
 
 import (
 	"encoding/json"
+	"github.com/georgekaran/go-jwt-server/auth"
 	"github.com/georgekaran/go-jwt-server/service"
+	"log"
 	"net/http"
 )
 
@@ -24,11 +26,14 @@ func handleLogin(w http.ResponseWriter, req *http.Request) {
 			http.Error(w, "Invalid fields.", http.StatusBadRequest)
 			return
 		}
-		user, errLogin := service.UserServiceInstance.Login(userCred.Username, userCred.Password)
+		_, errLogin := service.UserServiceInstance.Login(userCred.Username, userCred.Password)
 		if errLogin != nil {
 			http.Error(w, "Invalid credentials.", http.StatusBadRequest)
 		}
-		auth.
-		w.Write([]byte(user.Name))
+		token, errSign := auth.JWTInstance.Sign("user")
+		if errSign != nil {
+			log.Fatal(errSign)
+		}
+		w.Write([]byte(token))
 	}
 }
