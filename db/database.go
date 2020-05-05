@@ -20,7 +20,7 @@ func GetConnection() *sql.DB {
 			configMap["database.name"])
 		db, dbError = sql.Open("postgres", dataSourceName)
 		if dbError != nil {
-			util.CheckFatal(dbError)
+			util.Must(dbError)
 		}
 	}
 	return db

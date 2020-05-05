@@ -15,7 +15,7 @@ func InitRepository() UserRepository {
 
 func (u UserRepository) FindAll() []model.User {
 	rows, err := u.db.Query("SELECT id, name, email FROM user_account")
-	util.CheckFatal(err)
+	util.Must(err)
 
 	users := make([]model.User, 0)
 	for rows.Next() {

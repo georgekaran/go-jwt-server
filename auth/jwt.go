@@ -23,8 +23,8 @@ var JWTInstance JWT
 // MinBytes is the minimum amount of bytes for secret allowed.
 var MinBytes = 32
 
-// ExpiryDuration determines that all tokens expire 24 hours after minting.
-var ExpiryDuration = 24 * time.Hour
+// ExpiryDuration determines that all tokens expire 2 hours after minting.
+var ExpiryDuration = 2 * time.Hour
 
 // ErrSecretTooShort is an signaling the provided secret must be longer.
 var ErrSecretTooShort = errors.New("secret length must be at least 32 bytes")
@@ -33,10 +33,8 @@ var ErrSecretTooShort = errors.New("secret length must be at least 32 bytes")
 // the library.
 var ErrInvalidToken = errors.New("invalid JWT")
 
-// Sign takes a role string to be stored in the JWT and signed.
-// WARNING: This method is dangerous to call with a cryptographically
-// insecure secret.
-func (s *JWT) Sign(role string) (string, error) {
+// Sign takes a email string to be stored in the JWT and signed.
+func (s *JWT) Sign(email string) (string, error) {
 	// Make sure token is valid
 	err := s.ValidSecret()
 	if err != nil {
@@ -46,11 +44,11 @@ func (s *JWT) Sign(role string) (string, error) {
 	// Create a new token object, specifying signing method and the claims
 	// you would like it to contain.
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
-		"role": role,
+		"email": email,
 		"iat":  time.Now().Unix(),
 		"exp":  time.Now().Add(ExpiryDuration).Unix(),
 	})
-
+	fmt.Println(token)
 	// Sign and get the complete encoded token as a string using the secret
 	tokenString, err := token.SignedString(s.Secret)
 	if err != nil {

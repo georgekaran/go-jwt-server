@@ -14,7 +14,7 @@ func ToMap(filename string) map[string]string {
 
 	pathBase := filepath.Join(ConfigDir(), filename)
 	bs, err := ioutil.ReadFile(pathBase)
-	util.CheckFatal(err)
+	util.Must(err)
 
 	lines := strings.Split(string(bs), "\n")
 	for _, line := range lines {

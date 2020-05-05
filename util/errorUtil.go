@@ -10,7 +10,7 @@ func NewError(message string) Error {
 	return Error{message}
 }
 
-func CheckFatal(err error) {
+func Must(err error) {
 	if err != nil {
 		log.Fatal(err)
 	}
